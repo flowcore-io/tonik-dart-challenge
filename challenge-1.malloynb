@@ -1,0 +1,68 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "# Flowcore data corner challenge\n\nFirst you need to define the sources of the data.\n\nReplace the duckdb url with your own read model url. You can find this undex XXXXXXXXXX",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Define data sources\n\nWe are using duckdb to load the data. Duckdb reads the data from the specified URL. You can click preview text over the source to preview the data ",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "malloy",
+    "value": "source: unicorns is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-unicorns.csv') {\n    measure: unicorn_count is count()\n}\nsource: dartScore is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-scores.csv') {\n    primary_key: entry_id\n}\nsource: dartContestants is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-contestants.csv')\n\nsource: dartThrows is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-throws.csv?s3_use_https=true') {\n    measure: throw_count is count()\n}\n\n\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Find your own entry\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "malloy",
+    "value": "query: dartScore -> {\n    project: *\n    where: entry_id = 'recY7xfqjHVzYvZbH'   \n}\n\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Join with unicorns to get your unicorn name",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "malloy",
+    "value": "query: dartScore -> {\n    project: total_score, unicorns.company\n    join_one: unicorns on total_score = unicorns.challenge_score\n    where: entry_id = 'recY7xfqjHVzYvZbH' and unicorns.challenge_score != ''   \n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Submit your result\n\n...",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Join with the contestants stream to get",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "malloy",
+    "value": "query: dartScore -> {\n    project: total_score, dartContestants.name\n    join_one: dartContestants on entry_id = dartContestants.entry_id\n    where: entry_id = 'recY7xfqjHVzYvZbH' and total_score > 100\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "malloy",
+    "value": "query: dartContestants -> {\n    project: * \n    where: entry_id = 'recY7xfqjHVzYvZbH'   \n}",
+    "metadata": {}
+  }
+]
