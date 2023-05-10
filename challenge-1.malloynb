@@ -68,7 +68,7 @@
   {
     "kind": 2,
     "language": "malloy",
-    "value": "query: dartScore -> {\n    aggregate: total_score is sum(total_score) \n    join_one: dartContestants on entry_id = dartContestants.entry_id\n    join_one: unicorns on total_score = unicorns.challenge_score and unicorns.challenge_score != ''\n    group_by: unicorns.country\n    order_by: total_score desc\n\n}\n// --! style bar_chart\n// --! title \"Total score by country\"",
+    "value": "query: dartScore -> {\n    aggregate: total_score is sum(total_score) \n    join_one: dartContestants on entry_id = dartContestants.entry_id\n    join_one: unicorns on total_score = unicorns.challenge_score and unicorns.challenge_score != ''\n    group_by: unicorns.country\n    order_by: total_score desc\n\n}\n// --! style bar_chart",
     "metadata": {}
   }
 ]
