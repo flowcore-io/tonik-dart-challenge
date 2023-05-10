@@ -14,19 +14,19 @@
   {
     "kind": 2,
     "language": "malloy",
-    "value": "source: unicorns is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-unicorns.csv') {\n    measure: unicorn_count is count()\n}\nsource: dartScore is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-scores.csv') {\n    primary_key: entry_id\n}\nsource: dartContestants is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-contestants.csv')\n\nsource: dartThrows is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-throws.csv?s3_use_https=true') {\n    measure: throw_count is count()\n}\n\n\n\n",
+    "value": "source: unicorns is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-unicorns.csv') {\n    measure: unicorn_count is count()\n    primary_key: rank\n}\nsource: dartScore is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-scores.csv') {\n    dimension: my_entry_id is 'recY7xfqjHVzYvZbH'\n    primary_key: entry_id\n}\nsource: dartContestants is table('duckdb:https://rm-argilzar-tonik-dart.s3.eu-west-1.amazonaws.com/tonik-dart-contestants.csv') {\n    dimension: my_entry_id is 'recY7xfqjHVzYvZbH'\n    primary_key: entry_id\n}\n\n\n",
     "metadata": {}
   },
   {
     "kind": 1,
     "language": "markdown",
-    "value": "## Find your own entry\n\n",
+    "value": "## Find your own entry\n\nMake sure you edit the `my_entry_id` dimension in the code block above to your own `entry_id`",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "malloy",
-    "value": "query: dartScore -> {\n    project: *\n    where: entry_id = 'recY7xfqjHVzYvZbH'   \n}\n\n\n",
+    "value": "query: dartScore -> {\n    project: *\n    where: entry_id = my_entry_id\n}",
     "metadata": {}
   },
   {
@@ -38,31 +38,37 @@
   {
     "kind": 2,
     "language": "malloy",
-    "value": "query: dartScore -> {\n    project: total_score, unicorns.company\n    join_one: unicorns on total_score = unicorns.challenge_score\n    where: entry_id = 'recY7xfqjHVzYvZbH' and unicorns.challenge_score != ''   \n}",
+    "value": "query: dartScore -> {\n    project: total_score, unicorns.company\n    join_one: unicorns on total_score = unicorns.challenge_score\n    where: entry_id = my_entry_id and unicorns.challenge_score != ''   \n}",
     "metadata": {}
   },
   {
     "kind": 1,
     "language": "markdown",
-    "value": "## Submit your result\n\n...",
+    "value": "## Submit your result\n\nCheck your email for the link to submit your result, or use [this link]() and fill in the entry id manually.",
     "metadata": {}
   },
   {
     "kind": 1,
     "language": "markdown",
-    "value": "## Join with the contestants stream to get",
+    "value": "## More examples\n\n### Topscore list ",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "malloy",
-    "value": "query: dartScore -> {\n    project: total_score, dartContestants.name\n    join_one: dartContestants on entry_id = dartContestants.entry_id\n    where: entry_id = 'recY7xfqjHVzYvZbH' and total_score > 100\n}",
+    "value": "query: dartScore -> {\n    project:  dartContestants.name, unicorns.company, unicorns.valuation\n    join_one: dartContestants on entry_id = dartContestants.entry_id\n    join_one: unicorns on total_score = unicorns.challenge_score and unicorns.challenge_score != ''\n    order_by: valuation desc\n    limit: 10\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "### Total score by unicorn country\n\n",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "malloy",
-    "value": "query: dartContestants -> {\n    project: * \n    where: entry_id = 'recY7xfqjHVzYvZbH'   \n}",
+    "value": "query: dartScore -> {\n    aggregate: total_score is sum(total_score) \n    join_one: dartContestants on entry_id = dartContestants.entry_id\n    join_one: unicorns on total_score = unicorns.challenge_score and unicorns.challenge_score != ''\n    group_by: unicorns.country\n    order_by: total_score desc\n\n}\n// --! style bar_chart\n// --! title \"Total score by country\"",
     "metadata": {}
   }
 ]
