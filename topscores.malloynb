@@ -1,0 +1,20 @@
+[
+  {
+    "kind": 2,
+    "language": "malloy",
+    "value": "\n\n\nsource: validation is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-validation-results.csv?1ghdfgfdgjg2') {\n    primary_key: entry_id\n}\n\nsource: unicorns is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-unicorns.csv?1sdfsf2') {\n}\n\n\nsource: contestants is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-contestants.csv') {\n    primary_key: entry_id\n}\n\nsource: scores is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-scores.csv') {\n    primary_key: entry_id\n}\n\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "malloy",
+    "value": "",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "malloy",
+    "value": "query: scores -> {\n    project: contestants.name, total_score\n    join_one: contestants with entry_id\n    order_by: total_score desc\n}",
+    "metadata": {}
+  }
+]

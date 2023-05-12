@@ -1,0 +1,18 @@
+source: contestants is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-contestants.csv') {
+    primary_key: entry_id
+}
+
+source: scores is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-scores.csv') {
+    primary_key: entry_id
+}
+
+
+source: validation is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-validation-results.csv') {
+    primary_key: entry_id
+}
+
+source: unicorns is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-unicorns.csv?shsdfjk') {
+    primary_key: rank
+}
+
+
