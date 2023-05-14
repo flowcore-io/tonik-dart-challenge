@@ -14,7 +14,13 @@
   {
     "kind": 2,
     "language": "malloy",
-    "value": "source: contestants is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-contestants.csv?jejd67rechjxd9B9QI67678jJnb6XC8fdfrtk') {\n    primary_key: entry_id\n}\n\nsource: scores is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-scores.csv?recoAEpDxVhjkhkJbzRLdJ') {\n    primary_key: entry_id\n}\n\n\nsource: validation is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-validation-results.csv') {\n    primary_key: entry_id\n}\n\nsource: unicorns is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-unicorns.csv?shsdfjk') {\n    primary_key: rank\n}\n\n",
+    "value": "source: contestants is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-contestants.csv?recghjhrtykhkhjBDoLdBOdsawZP') {\n    primary_key: entry_id\n}\n\nsource: scores is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-scores.csv?recgBnm,ohjhgawZP') {\n    primary_key: entry_id\n}\n\n\nsource: validation is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-dart-validation-results.csv') {\n    primary_key: entry_id\n}\n\nsource: unicorns is table('duckdb:https://rm-tonik-tonik-readmodel.s3.eu-west-1.amazonaws.com/tonik-unicorns.csv?shsdfjk') {\n    primary_key: rank\n}\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "malloy",
+    "value": "query: contestants ->{\n    project: *\n    limit: 1000\n    }",
     "metadata": {}
   },
   {
@@ -26,7 +32,7 @@
   {
     "kind": 2,
     "language": "malloy",
-    "value": "query: scores -> {\n    project: *\n    where: entry_id = 'recOVa1Qwr9EOFS8j'   \n}\n\n\n",
+    "value": "query: scores -> {\n    project: *\n    where: entry_id = 'rech8Wy7fAqx6uTJm'   \n}\n\n\n\n\n",
     "metadata": {}
   },
   {
@@ -38,7 +44,7 @@
   {
     "kind": 2,
     "language": "malloy",
-    "value": "query: scores -> {\n    project: total_score, unicorns.company\n    join_one: unicorns on total_score = unicorns.challenge_score\n    where: entry_id = 'recOVa1Qwr9EOFS8j' and unicorns.challenge_score != ''\n    limit: 1  \n}",
+    "value": "query: scores -> {\n    project: total_score, unicorns.company\n    join_one: unicorns on total_score = unicorns.challenge_score\n    where: entry_id = 'rech8Wy7fAqx6uTJm' and unicorns.challenge_score != ''\n    limit: 1  \n}",
     "metadata": {}
   },
   {
@@ -56,13 +62,13 @@
   {
     "kind": 2,
     "language": "malloy",
-    "value": "query: dartScore -> {\n    project: total_score, dartContestants.name\n    join_one: dartContestants on entry_id = dartContestants.entry_id\n    where: entry_id = 'recY7xfqjHVzYvZbH' and total_score > 100\n}",
+    "value": "query: scores -> {\n    project: total_score, contestants.name\n    join_one: contestants on entry_id = contestants.entry_id\n    where:  total_score > 100\n    order_by: total_score\n}",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "malloy",
-    "value": "query: dartContestants -> {\n    project: * \n    where: entry_id = 'recY7xfqjHVzYvZbH'   \n}",
+    "value": "query: contestants -> {\n    project: * \n}",
     "metadata": {}
   }
 ]
